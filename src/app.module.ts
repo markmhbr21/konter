@@ -19,13 +19,14 @@ import { ProvidersModule } from './providers/providers.module';
     ConfigModule.forRoot({ isGlobal: true }),
     TypeOrmModule.forRoot({
       type: 'mysql',
-      host: process.env.DB_HOST,
-      port: parseInt(process.env.DB_PORT || '3306', 10),
-      username: process.env.DB_USER,
-      password: process.env.DB_PASSWORD,
-      database: process.env.DB_NAME,
+      // Menggunakan fallback: Cek variabel Railway dulu, kalau tidak ada pakai variabel lokal
+      host: process.env.MYSQLHOST || process.env.DB_HOST, 
+      port: parseInt(process.env.MYSQLPORT || process.env.DB_PORT || '3306', 10),
+      username: process.env.MYSQLUSER || process.env.DB_USER,
+      password: process.env.MYSQL_ROOT_PASSWORD || process.env.MYSQLPASSWORD || process.env.DB_PASSWORD,
+      database: process.env.MYSQL_DATABASE || process.env.MYSQLDATABASE || process.env.DB_NAME,
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true, // Auto synchronize for development
+      synchronize: true, // Akan otomatis membuat tabel di Railway saat deploy berhasil
     }),
     AuthModule,
     UsersModule,
