@@ -38,6 +38,9 @@ export class User {
   @JoinColumn({ name: 'branchId' })
   branch: Branch;
 
+  @Column({ type: 'text', nullable: true })
+  profileImage: string;
+
   @CreateDateColumn()
   createdAt: Date;
 

@@ -67,6 +67,7 @@ export class UsersService implements OnModuleInit {
     if (data.branchId !== undefined) {
       user.branch = data.branchId ? ({ id: data.branchId } as any) : null;
     }
+    if (data.profileImage !== undefined) user.profileImage = data.profileImage;
 
     return this.usersRepository.save(user);
   }

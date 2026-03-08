@@ -34,6 +34,7 @@ export class AuthService {
         role: user.role,
         branchId: user.branch?.id,
         branchName: user.branch?.name,
+        profileImage: user.profileImage,
       },
     };
   }
