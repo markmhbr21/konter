@@ -1,4 +1,4 @@
-import { Injectable, OnModuleInit } from '@nestjs/common';
+import { Injectable, OnModuleInit } from '@nestjs/common'; // Ditambahkan OnModuleInit di sini
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User, UserRole } from './user.entity';
@@ -75,6 +75,7 @@ export class UsersService implements OnModuleInit {
     await this.usersRepository.delete(id);
   }
 
+  // Fungsi Seeder Otomatis
   async onModuleInit() {
     const adminExists = await this.usersRepository.findOne({ where: { username: 'admin' } });
     
@@ -84,7 +85,7 @@ export class UsersService implements OnModuleInit {
         name: 'Administrator',
         username: 'admin',
         passwordHash: hashedPassword,
-        role: 'admin',
+        role: UserRole.ADMIN, // Diubah dari 'admin' menjadi UserRole.ADMIN agar sesuai enum
       });
       await this.usersRepository.save(admin);
       console.log('✅ Admin user created successfully');
