@@ -1,0 +1,77 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { User, UserRole } from './user.entity';
+import * as bcrypt from 'bcrypt';
+
+@Injectable()
+export class UsersService {
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
+
+  async findOne(username: string): Promise<User | null> {
+    return this.usersRepository.findOne({
+      where: { username },
+      relations: ['branch'],
+    });
+  }
+
+  async createAdmin(
+    username: string,
+    passwordPlain: string,
+    name: string,
+  ): Promise<User> {
+    const passwordHash = await bcrypt.hash(passwordPlain, 10);
+    const admin = this.usersRepository.create({
+      username,
+      passwordHash,
+      name,
+      role: UserRole.ADMIN,
+    });
+    return this.usersRepository.save(admin);
+  }
+
+  async createEmployee(
+    username: string,
+    passwordPlain: string,
+    name: string,
+    branchId?: number,
+  ): Promise<User> {
+    const passwordHash = await bcrypt.hash(passwordPlain, 10);
+    const employee = this.usersRepository.create({
+      username,
+      passwordHash,
+      name,
+      role: UserRole.EMPLOYEE,
+      branch: branchId ? ({ id: branchId } as any) : null,
+    });
+    return this.usersRepository.save(employee);
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.usersRepository.find({ relations: ['branch'] });
+  }
+
+  async update(id: number, data: any): Promise<User> {
+    const user = await this.usersRepository.findOne({ where: { id } });
+    if (!user) throw new Error('User not found');
+
+    if (data.password) {
+      user.passwordHash = await bcrypt.hash(data.password, 10);
+    }
+
+    if (data.username) user.username = data.username;
+    if (data.name) user.name = data.name;
+    if (data.branchId !== undefined) {
+      user.branch = data.branchId ? ({ id: data.branchId } as any) : null;
+    }
+
+    return this.usersRepository.save(user);
+  }
+
+  async remove(id: number): Promise<void> {
+    await this.usersRepository.delete(id);
+  }
+}
