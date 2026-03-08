@@ -74,4 +74,20 @@ export class UsersService {
   async remove(id: number): Promise<void> {
     await this.usersRepository.delete(id);
   }
+
+  async onModuleInit() {
+    const adminExists = await this.usersRepository.findOne({ where: { username: 'admin' } });
+    
+    if (!adminExists) {
+      const hashedPassword = await bcrypt.hash('123456', 10);
+      const admin = this.usersRepository.create({
+        name: 'Administrator',
+        username: 'admin',
+        passwordHash: hashedPassword,
+        role: 'admin',
+      });
+      await this.usersRepository.save(admin);
+      console.log('✅ Admin user created successfully');
+    }
+  }
 }
