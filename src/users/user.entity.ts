@@ -41,6 +41,12 @@ export class User {
   @Column({ type: 'text', nullable: true })
   profileImage: string;
 
+  @Column({ type: 'varchar', length: 10, default: 'light' })
+  theme: string;
+
+  @Column({ type: 'varchar', length: 10, default: 'ID' })
+  language: string;
+
   @CreateDateColumn()
   createdAt: Date;
 
