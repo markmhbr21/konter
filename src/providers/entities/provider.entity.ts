@@ -11,6 +11,7 @@ import { Product } from '../../products/product.entity'; // Update path import j
 export enum ProviderType {
   PULSA = 'pulsa',
   TRANSFER = 'transfer',
+  EWALLET = 'ewallet',
 }
 
 @Entity('providers')

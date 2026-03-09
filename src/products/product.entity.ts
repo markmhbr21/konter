@@ -13,6 +13,7 @@ import { BranchProduct } from './branch-product.entity';
 export enum ProductType {
   PULSA = 'pulsa',
   TRANSFER = 'transfer',
+  EWALLET = 'ewallet',
   VOUCHER = 'voucher',
   OTHER = 'other',
 }

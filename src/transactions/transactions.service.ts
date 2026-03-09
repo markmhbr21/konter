@@ -37,7 +37,7 @@ export class TransactionsService {
     let branch: Branch | null = null;
     let bp: BranchProduct | null = null;
 
-    const isDigital = product.type === ProductType.PULSA || product.type === ProductType.TRANSFER;
+    const isDigital = product.type === ProductType.PULSA || product.type === ProductType.TRANSFER || product.type === ProductType.EWALLET;
 
     if (isDigital) {
       // Produk digital: Unlimited stok, tidak wajib terdaftar di branch_products
@@ -82,7 +82,7 @@ export class TransactionsService {
     let finalCapitalPrice = Number(product.capitalPrice) || 0;
     let finalSellingPrice = Number(product.sellingPrice) || 0;
 
-    if (product.type === ProductType.PULSA || product.type === ProductType.TRANSFER) {
+    if (product.type === ProductType.PULSA || product.type === ProductType.TRANSFER || product.type === ProductType.EWALLET) {
       finalCapitalPrice = Number(product.nominal) || 0;
     }
 
@@ -90,7 +90,7 @@ export class TransactionsService {
 
     if (dto.overrideSellingPrice !== undefined && dto.overrideSellingPrice !== null && Number(dto.overrideSellingPrice) > 0) {
       finalSellingPrice = Number(dto.overrideSellingPrice);
-    } else if (product.type === ProductType.PULSA || product.type === ProductType.TRANSFER) {
+    } else if (product.type === ProductType.PULSA || product.type === ProductType.TRANSFER || product.type === ProductType.EWALLET) {
       finalSellingPrice = (Number(product.nominal) || 0) + (Number(product.fee) || 0);
     }
 
