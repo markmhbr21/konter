@@ -23,6 +23,9 @@ export class Settings {
   @Column({ nullable: true, type: 'text' })
   logo: string;
 
+  @Column({ nullable: true, type: 'text' })
+  qrisImage: string;
+
   @Column({ type: 'decimal', precision: 10, scale: 8, nullable: true })
   latitude: number;
 
