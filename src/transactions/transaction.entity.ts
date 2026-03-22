@@ -52,6 +52,9 @@ export class Transaction {
   @Column({ type: 'enum', enum: PaymentMethod, default: PaymentMethod.CASH })
   paymentMethod: PaymentMethod;
 
+  @Column({ type: 'text', nullable: true })
+  notes: string;
+
   @CreateDateColumn()
   createdAt: Date;
 }

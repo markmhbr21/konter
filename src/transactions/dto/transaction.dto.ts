@@ -9,4 +9,5 @@ export class CreateTransactionDto {
   barcodeScanned?: string;
   overrideSellingPrice?: number;
   overrideProfit?: number;
+  notes?: string;
 }

@@ -50,7 +50,7 @@ export class TransactionsService {
       // Produk fisik: Ambil relasi dari branch_products untuk cek stok
       bp = await this.branchProductRepository.findOne({
         where: { branch: { id: dto.branchId }, product: { id: dto.productId } },
-        relations: ['product', 'branch'],
+        relations: ['product', 'product.provider', 'branch'],
       });
 
       if (!bp) {
@@ -116,6 +116,7 @@ export class TransactionsService {
       profit: finalProfit,
       barcodeScanned: barcodeRaw,
       paymentMethod: dto.paymentMethod || PaymentMethod.CASH,
+      notes: dto.notes,
     });
 
     return this.transactionRepository.save(transaction);
@@ -172,7 +173,7 @@ export class TransactionsService {
     const where = branchId ? { branch: { id: branchId } } : {};
     return this.transactionRepository.find({
       where,
-      relations: ['product', 'user'],
+      relations: ['product', 'product.provider', 'user'],
       order: { createdAt: 'DESC' },
       take: limit,
     });

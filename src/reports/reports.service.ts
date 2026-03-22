@@ -22,7 +22,7 @@ export class ReportsService {
         branch: { id: branchId },
         createdAt: Between(startDate, endDate),
       },
-      relations: ['product', 'branch'],
+      relations: ['product', 'product.provider', 'branch'],
       order: { createdAt: 'DESC' },
       skip: (page - 1) * limit,
       take: limit,
@@ -36,7 +36,7 @@ export class ReportsService {
         branch: { id: branchId },
         createdAt: Between(startDate, endDate),
       },
-      relations: ['product', 'branch'],
+      relations: ['product', 'product.provider', 'branch'],
     });
 
     const totalRevenue = allTransactions.reduce(
@@ -85,7 +85,7 @@ export class ReportsService {
       where: {
         createdAt: Between(startDate, endDate),
       },
-      relations: ['branch', 'product'],
+      relations: ['branch', 'product', 'product.provider'],
     });
 
     const totalRevenue = allTransactions.reduce(
@@ -143,7 +143,7 @@ export class ReportsService {
       where: {
         createdAt: Between(startDate, endDate),
       },
-      relations: ['branch', 'product'],
+      relations: ['branch', 'product', 'product.provider'],
       order: { createdAt: 'DESC' },
       skip: (page - 1) * limit,
       take: limit,
